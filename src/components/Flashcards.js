@@ -1,5 +1,6 @@
 import React from 'react';
 import Flashcard from './Flashcard';
+import FlashcardForm from './FlashcardForm';
 
 class Flashcards extends React.Component {
   state = {
@@ -40,11 +41,22 @@ class Flashcards extends React.Component {
       <Flashcard key={card.id} card={card} {...card} cardToggle={this.cardToggle}/>
     ))
   )
+  getId = () => {
+    // NOTE We are just using this as a helper function for id's since we aren't using a db yet
+    return Math.floor((1 + Math.random()) * 10000);
+  };
+
+  addCard = (cardData) => {
+    let card = { id: this.getId(), ...cardData };
+    this.setState({ cards: [card, ...this.state.cards] })
+  }
 
   render() {
     return (
       <div>
        {this.mapCards()}
+       <br />
+       <FlashcardForm add={this.addCard}/>
       </div>
     )
   }
